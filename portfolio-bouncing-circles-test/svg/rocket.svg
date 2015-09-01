@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09449 1052.3622"
+   id="rocket"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="raketje.svg"
+   inkscape:export-filename="C:\Users\UGent\Documents\inkscape\raketje.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4203">
+      <stop
+         style="stop-color:#ff6600;stop-opacity:1;"
+         offset="0"
+         id="stop4205" />
+      <stop
+         style="stop-color:#f78331;stop-opacity:0.88627452"
+         offset="1"
+         id="stop4207" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4203"
+       id="linearGradient4213"
+       x1="-621.94983"
+       y1="849.05109"
+       x2="-606.83466"
+       y2="318.33676"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="-595.92211"
+     inkscape:cy="412.86827"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1304"
+     inkscape:window-height="746"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:snap-global="false" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Laag 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="flames"
+       inkscape:export-filename="C:\Users\UGent\raketje.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:connector-curvature="0"
+         id="orangeflames"
+         d="m -646.39251,786.62559 -52.40259,40.06697 23.03031,1.17187 -24.9495,33.98437 27.82828,-4.68749 0.9596,50.39062 20.15151,-18.75001 15.35354,45.70313 27.82828,-31.64062 23.0303,30.46876 0.9596,-43.35938 31.66667,28.12499 -6.71717,-35.15625 38.38384,4.68752 -18.23233,-31.64065 28.78788,-2.34374 -30.70707,-33.98438 20.15152,-7.03125 -36.46465,-28.125 z"
+         style="fill:#ff8700;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:nodetypes="cccccccccccccccccccc" />
+      <path
+         inkscape:connector-curvature="0"
+         id="yellowflames"
+         d="m -640.63493,795.543 -33.21067,22.94644 11.51515,4.68748 -18.23232,25.78126 23.03029,-5.85937 -5.75757,39.84374 16.31313,-7.03124 15.35354,30.46875 19.19191,-21.09376 19.19193,21.09376 4.79798,-33.98439 16.31312,16.40625 6.71717,-18.74999 24.9495,7.03125 -11.51515,-29.29688 23.0303,0 -23.0303,-33.98436 9.59596,-4.68751 -24.9495,-21.09375 z"
+         style="fill:#fff100;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:nodetypes="cccccccccccccccccccc" />
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       id="orangebody"
+       d="m -605.71484,346.64844 c -63.922,98.56267 -101.7556,126.32037 -102.83008,228.34961 -0.0157,1.48788 -0.0273,2.98789 -0.0273,4.50781 0,51.10742 7.27898,98.35864 19.60938,136.75976 -5.45371,2.35908 -11.25606,5.7482 -17.43555,10.38282 -68.57143,51.42858 -11.4294,208.57003 -8.57226,125.71289 1.55183,-45.00306 30.91131,-63.85033 57.41992,-71.70313 4.20081,5.56007 8.59146,10.46046 13.14453,14.64844 l 0,25.66016 35.21484,0 0,-0.0859 43.34766,0 0,-26.66406 c 4.67239,-4.45207 9.17015,-9.65898 13.46094,-15.56055 28.14997,6.43099 63.29436,24.35497 64.99609,73.70508 2.85714,82.85714 60.00112,-74.28431 -8.57031,-125.71289 -9.37183,-7.02887 -17.88507,-11.21299 -25.60742,-13.22656 11.78358,-37.87924 18.70703,-84.06461 18.70703,-133.91602 0,-1.51836 -0.008,-3.02173 -0.0254,-4.50781 -1.07448,-102.02924 -38.91004,-129.78694 -102.83203,-228.34961 z"
+       style="opacity:1;fill:url(#linearGradient4213);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.04062378;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="C:\Users\UGent\raketje.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.89999998;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -604.08384,611.93555 c -41.14632,9e-4 -79.62977,4.29561 -102.80252,11.47265 0.88383,10.46102 2.07297,20.67634 3.55382,30.58985 23.47686,6.58086 60.2215,18.31238 99.2487,18.32198 37.06092,-0.004 72.18391,-11.35265 95.80636,-17.38058 1.59014,-10.49701 2.86235,-21.32615 3.7807,-32.43945 -23.44966,-6.63848 -60.35773,-10.55378 -99.58706,-10.56445 z"
+       id="whiteborder"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="C:\Users\UGent\raketje.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="opacity:1;fill:#ddffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.89999998;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -602.10046,489.5332 c -15.51672,0.26763 -36.44009,2.42934 -55.23946,4.79883 -22.42168,3.12044 -41.49287,6.60156 -41.49287,6.60156 -6.36089,20.75844 -9.83836,44.23434 -10.15394,74.06446 -0.0157,1.48788 -0.0275,2.98789 -0.0275,4.50781 0,20.23 1.14679,39.85648 3.29832,58.57031 0,0 22.8158,6.45803 48.36028,11.75977 18.50311,3.47802 38.26603,6.45168 53.13608,6.77148 35.11446,-0.8829 98.56887,-18.53125 98.56888,-18.53125 2.15151,-18.71383 3.29831,-38.34031 3.29831,-58.57031 0,-1.51836 -0.008,-3.02173 -0.0255,-4.50781 -0.3156,-29.83012 -3.79283,-53.30602 -10.15395,-74.06446 0,0 -58.13714,-10.85058 -89.54118,-11.40039 -0.009,-1.6e-4 -0.0182,1.6e-4 -0.0275,0 z"
+       id="bluepaint"
+       inkscape:export-filename="C:\Users\UGent\raketje.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       inkscape:connector-curvature="0" />
+    <g
+       id="window">
+      <ellipse
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="C:\Users\UGent\raketje.png"
+         ry="32.142857"
+         rx="41.42857"
+         cy="562.5083"
+         cx="-605.71429"
+         id="path4163"
+         style="opacity:1;fill:#87d4e1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="C:\Users\UGent\raketje.png"
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path4165"
+         d="m -598.52734,531.45117 -10.04493,45.19727 7.47462,-13.63706 14.6582,-28.36294 c -3.79208,-1.54409 -7.86982,-2.62266 -12.08789,-3.19727 z"
+         style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="C:\Users\UGent\raketje.png"
+         id="path4172"
+         d="m -583.58789,535.94531 -6.80078,30.60157 7.47461,-13.63672 6.48242,-12.54297 a 41.42857,32.142857 0 0 0 -7.15625,-4.42188 z"
+         style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="C:\Users\UGent\raketje.png"
+         id="path4177"
+         d="m -624.23549,559.53042 -7.36759,12.98109 -5.50533,10.29206 a 41.223469,30.57344 2.2830762 0 0 6.49988,4.79214 l 6.37304,-28.06529 z"
+         style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>
