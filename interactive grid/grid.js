@@ -18,14 +18,14 @@ var dots = [];
 var SEPARATION = 150;
 var GRAVITYFIELD = 150;
 var MOVEDISTANCE = 1;
-var MAXPULLS = 10;
+var MAXPULLS = 500;
 
 document.onmousemove = handleMouseMove;
 var clientX = -1000, clientY =-1000;
-function handleMouseMove(){
-	 event = event || window.event;
-	 clientX = event.clientX;
-	 clientY = event.clientY;
+function handleMouseMove(e){
+	 var evt = e || event || window.event;
+	 clientX = evt.clientX;
+	 clientY = evt.clientY;
 }
 
 var Dot = function(ctx, x, y){
@@ -105,7 +105,7 @@ function loop(){
 					dotA.y = dotA.y + MOVEDISTANCE;
 					dotA.pulledY += MOVEDISTANCE;
 				}
-				if(dotA.timesPulled == MAXPULLS){
+				if(dotA.timesPulled >= MAXPULLS){
 					dotA.pulled = true;
 				}
 			}
@@ -127,7 +127,7 @@ function loop(){
 				}
 				if(dotA.pulledX == 0 && dotA.pulledY == 0){
 					dotA.pulled = false;
-					dotA.timesPulled == 0;
+					dotA.timesPulled = 0;
 				}
 		}
 		ctx.beginPath();
