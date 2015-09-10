@@ -109,7 +109,8 @@ function loop(){
 					dotA.pulled = true;
 				}
 			}
-		} else{
+		} 
+		if(distanceWithMouse > GRAVITYFIELD || dotA.pulled == true) {
 				dotA.col = '#FFF'
 				if(dotA.pulledX > 0){
 					dotA.x -= MOVEDISTANCE;
