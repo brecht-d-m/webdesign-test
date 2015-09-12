@@ -31,6 +31,7 @@ function handleClick(e){
 var hexagon;
 var customShape;
 var points = [];
+var changeCursor = false;
 
 init();
 loop();
@@ -66,6 +67,18 @@ function Polygon(ctx, sides, size, Xcenter, Ycenter, col){
 		this.ctx.lineWidth = 5;
 		this.ctx.stroke();
 		this.ctx.closePath();
+		//this.ctx.fillStyle = '#fff';
+		//this.ctx.fill();
+
+		// drawing the dots for menu
+		for(var i =0; i < this.points.length; i++){
+			var point = this.points[i];
+			this.ctx.beginPath();
+			this.ctx.arc(point.x,point.y,point.rad,0,2*Math.PI,false);
+			this.ctx.fillStyle="#fff";
+			this.ctx.fill();
+			this.ctx.closePath();
+		}
 	}
 }
 
@@ -74,6 +87,8 @@ function Point(x,y){
 	this.y = y;
 	this.originalX = x;
 	this.originalY = y;
+	this.maxMoveDistance = 30;
+	this.rad = 10;
 }
 
 function init(){
@@ -81,6 +96,11 @@ function init(){
 	hexagon = new Polygon(ctx, 6, height/4, width/2, height/2, '#ffffff');
 	customShape = new Polygon(ctx,0,0,0,0,'#ffffff');
 	hexagon.makePoints();
+
+	// set menu items on right spot
+	$("#menu h1").css({"position":"fixed", "top":height/2-10, "left":width/2-height/4, "width":height/2, "text-align":"center","color": "#fff", "font-size": "2em","visibility":"hidden"});
+	console.log('hello');
+	console.log($('#menu h1').css("position"));
 }
 
 function loop(){
@@ -100,16 +120,16 @@ function loop(){
 		clicked = false;
 	}
 	for(var i = 0; i < hexagon.points.length; i++){
-		alterPointPosition( hexagon.points[i]);
+		var query = "#menu h1:nth-child("+(i+1)+")";
+		alterPointPosition( hexagon.points[i], $(query));
 	}
 	hexagon.draw();
-	if(customShape.points.length > 1){
-		for(var i = 0; i < customShape.points.length; i++){
-			alterPointPosition(customShape.points[i]);
-		}
-		customShape.draw();
+	if(changeCursor){
+		$("body").css({"cursor":"pointer"});
+		changeCursor = false;
+	} else{
+		$("body").css({"cursor":"default"});
 	}
-
 	requestAnimationFrame(loop);
 }
 
@@ -119,8 +139,14 @@ function distance(x1,y1,x2,y2){
 	return Math.sqrt(dx*dx+dy*dy);
 }
 
-function alterPointPosition(point){
-	if(distance(point.x,point.y,clientX,clientY) < 100){
+function alterPointPosition(point, menuItem){
+	var dPointClient = distance(point.x,point.y,clientX,clientY);
+	var dPointOriginal = distance(point.x,point.y,point.originalX,point.originalY);
+	var dOriginalClient = distance(clientX,clientY,point.originalX,point.originalY);
+	if(dPointClient < 50){
+		menuItem.css({"visibility":"visible"});
+		changeCursor = true;
+		if(dPointOriginal <= point.maxMoveDistance || dOriginalClient < dPointOriginal){
 			if(point.x <= clientX){
 				point.x += 1;
 			} else{
@@ -131,7 +157,10 @@ function alterPointPosition(point){
 			} else{
 				point.y -= 1;
 			}
-		} else{
+		}
+	} else{
+			menuItem.css({"visibility":"hidden"});
+			point.rad = 10;
 			if(point.x < point.originalX){
 				point.x += 1;
 			} 
@@ -144,7 +173,7 @@ function alterPointPosition(point){
 			if(point.y > point.originalY){
 				point.y -=1;
 			}
-		}
+	}
 }
 
 
