@@ -49,6 +49,7 @@ function handleClick(e){
 
 
 var polygon;
+var polygonSize = height/4;
 var numberOfMenuElements = 6;
 var points = [];
 var pointFollowSpeed = 1.5;
@@ -63,6 +64,8 @@ var query;
 var smallPolygon;
 var boolFillPolygon = false;
 var boolFillSmallPolygon = false;
+var boolBackToMain = false;
+var bgcolor = "rgb(70,70,70)"
 
 init();
 loop();
@@ -110,7 +113,8 @@ function Polygon(ctx, sides, size, Xcenter, Ycenter, col){
 		this.ctx.closePath();
 		if(boolFillPolygon){
 			if(!boolFillSmallPolygon){
-				this.ctx.fillStyle = menuAnimationColors[indexPointClicked];
+				bgcolor = menuAnimationColors[indexPointClicked];
+				this.ctx.fillStyle = bgcolor;
 			} else{
 				this.ctx.fillStyle = "rgb(70,70,70)";
 			}
@@ -140,7 +144,7 @@ function Point(x,y){
 
 function init(){
 	// create the polygon
-	polygon = new Polygon(ctx, numberOfMenuElements, height/4, width/2, height/2, '#ffffff');
+	polygon = new Polygon(ctx, numberOfMenuElements, polygonSize, width/2, height/2, '#ffffff');
 	customShape = new Polygon(ctx,0,0,0,0,'#ffffff');
 	polygon.makePoints();
 	$("#menu h1").css({"position":"fixed", "top":height/2-10, "left":width/2-height/4, "width":height/2, "text-align":"center","color": "#fff", "font-size": "2em","visibility":"hidden"});
@@ -205,6 +209,7 @@ function loop(){
 	} else {
 		animateAfterClick();
 	}
+	clicked = false;
 	if(!endAnimation){
 		requestAnimationFrame(loop);
 	} else{
@@ -284,6 +289,7 @@ function fillPolygon(){
 }
 
 function animateAfterClick(){
+	clicked = false;
 	$("body").css({"cursor":"default"});
 	if(polygon.size <= 2*height && polygon.size <= 2*width){
 		polygon.size += 50;
@@ -303,6 +309,61 @@ function displayPage(menuElement){
 	smallPolygon.makePoints(5);
 	boolFillSmallPolygon = true;
 	smallPolygon.draw();
+	smallPolygonInteraction();
+}
+
+function smallPolygonInteraction(){
+	var dClientCenter = distance(clientX,clientY,smallPolygon.Xcenter,smallPolygon.Ycenter);
+	if(dClientCenter <= smallPolygon.size){
+		if(clicked){
+			clicked = false;
+			$("body").css({"cursor":"default"});
+			goToMainMenu();
+			return;
+		}
+		$("body").css({"cursor":"pointer"});
+		for(var i = 0 ; i < smallPolygon.points.length; i++){
+			var point = smallPolygon.points[i];
+			var angle = Math.atan2(point.y - smallPolygon.Ycenter , point.x - smallPolygon.Xcenter);
+			angle += 0.01;
+			point.x = smallPolygon.Xcenter + smallPolygon.size * Math.cos(angle);
+			point.y = smallPolygon.Ycenter + smallPolygon.size * Math.sin(angle);
+		}
+		ctx.fillStyle = bgcolor;
+		ctx.fillRect(0,0,canvas.width,canvas.height);
+		smallPolygon.draw();
+	} else{
+		$("body").css({"cursor":"default"});
+	}
+	if(!clicked){
+		requestAnimationFrame(smallPolygonInteraction);
+	}
+}
+
+function goToMainMenu(){
+	ctx.fillStyle = "rgb(70,70,70)";
+	ctx.fillRect(0,0,canvas.width,canvas.height);
+	$("#main div").css({"visibility":"hidden"});
+	if(polygon.size >= polygonSize){
+		polygon.size -= 50;
+	}
+	if(polygon.size <= polygonSize){
+		polygon.size = polygonSize;
+	}
+	polygon.makePoints();
+	boolFillSmallPolygon = false;
+	boolFillPolygon = true;
+	polygon.draw();
+	if(polygon.size == polygonSize){
+		menuAnimation = false;
+		endAnimation = false;
+		indexLockedpoint = -1;
+		boolFillPolygon = false;
+		$("#menu h1").css({"color":"#fff","visibility":"hidden","opacity":1});
+		loop();
+		return;
+	}
+	requestAnimationFrame(goToMainMenu);
 }
 
 window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
