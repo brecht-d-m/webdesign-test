@@ -49,6 +49,7 @@ function handleClick(e){
 
 
 var polygon;
+var numberOfMenuElements = 6;
 var points = [];
 var pointFollowSpeed = 1.5;
 var surroundingFieldPoint = 70;
@@ -59,6 +60,9 @@ var endAnimation = false;
 var indexPointClicked = 0;
 var changeCursor = false;
 var query;
+var smallPolygon;
+var boolFillPolygon = false;
+var boolFillSmallPolygon = false;
 
 init();
 loop();
@@ -72,15 +76,23 @@ function Polygon(ctx, sides, size, Xcenter, Ycenter, col){
 	this.Ycenter = Ycenter;
 	this.col = col;
 	this.points = [];
-	this.makePoints = function(){
+	this.makePoints = function(size){
 		this.points = [];
 		var posX = this.Xcenter +  this.size * Math.cos(0),
 			posY = this.Ycenter +  this.size *  Math.sin(0);
-		this.points.push(new Point(posX,posY));
+		var point = new Point(posX,posY);
+		if(size > 0){
+			point.rad = size;
+		}
+		this.points.push(point);
 		for (var i = 1; i < this.sides;i++) {
 			var toX = this.Xcenter + this.size * Math.cos(i * 2 * Math.PI / this.sides),
 				toY = this.Ycenter + this.size * Math.sin(i * 2 * Math.PI / this.sides);
-    		this.points.push(new Point(toX,toY));
+			point = new Point(toX,toY);
+			if(size > 0){
+				point.rad = size;
+			}
+    		this.points.push(point);
 		}
 	}
 	this.draw = function(){
@@ -96,8 +108,12 @@ function Polygon(ctx, sides, size, Xcenter, Ycenter, col){
 		this.ctx.lineWidth = 5;
 		this.ctx.stroke();
 		this.ctx.closePath();
-		if(menuAnimation){
-			this.ctx.fillStyle = menuAnimationColors[indexPointClicked];
+		if(boolFillPolygon){
+			if(!boolFillSmallPolygon){
+				this.ctx.fillStyle = menuAnimationColors[indexPointClicked];
+			} else{
+				this.ctx.fillStyle = "rgb(70,70,70)";
+			}
 			this.ctx.fill();
 		}
 
@@ -124,7 +140,7 @@ function Point(x,y){
 
 function init(){
 	// create the polygon
-	polygon = new Polygon(ctx, 6, height/4, width/2, height/2, '#ffffff');
+	polygon = new Polygon(ctx, numberOfMenuElements, height/4, width/2, height/2, '#ffffff');
 	customShape = new Polygon(ctx,0,0,0,0,'#ffffff');
 	polygon.makePoints();
 	$("#menu h1").css({"position":"fixed", "top":height/2-10, "left":width/2-height/4, "width":height/2, "text-align":"center","color": "#fff", "font-size": "2em","visibility":"hidden"});
@@ -134,6 +150,12 @@ function init(){
   		var heightEl = $(this).height();
   		if(height > heightEl){
   			$(this).css({"position":"fixed", "top":height/2 -heightEl/2});
+  		} else{
+  			$(this).css({"margin-bottom":200});
+  		}
+  		var diffHeight = height - heightEl;
+  		if(diffHeight < 400 && diffHeight > 0){
+  			$(this).css({"margin-bottom":200-diffHeight/2,"position":"static"});
   		}
 	});
 }
@@ -167,6 +189,7 @@ function loop(){
 			query = "#menu h1:nth-child("+(i+1)+")";
 			alterPointPosition( polygon.points[i], $(query), i);
 			if(menuAnimation){
+				boolFillPolygon = true;
 				fillPolygon();
 				indexPointClicked = i;
 				break;
@@ -276,6 +299,10 @@ function displayPage(menuElement){
 	var query = '#' + menuElement.text().replace(/ /g,'_');
 	$(query).css({"visibility":"visible"});
 	$(query).animate({opacity:1},1000);
+	smallPolygon = new Polygon(ctx, numberOfMenuElements, 50, width/2, height-100, '#ffffff');
+	smallPolygon.makePoints(5);
+	boolFillSmallPolygon = true;
+	smallPolygon.draw();
 }
 
 window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
