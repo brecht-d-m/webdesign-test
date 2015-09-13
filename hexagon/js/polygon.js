@@ -28,9 +28,11 @@ function handleClick(e){
 }
 
 
-var hexagon;
-var customShape;
+var polygon;
 var points = [];
+var menuAnimationColors = ['#7ACEEB','#7AEBC1','#EBD07A','#EB857A','#7A89EB','#9AC274'];
+var menuAnimation = false;
+var indexPointClicked = 0;
 var changeCursor = false;
 
 init();
@@ -46,6 +48,7 @@ function Polygon(ctx, sides, size, Xcenter, Ycenter, col){
 	this.col = col;
 	this.points = [];
 	this.makePoints = function(){
+		this.points = [];
 		var posX = this.Xcenter +  this.size * Math.cos(0),
 			posY = this.Ycenter +  this.size *  Math.sin(0);
 		this.points.push(new Point(posX,posY));
@@ -67,8 +70,10 @@ function Polygon(ctx, sides, size, Xcenter, Ycenter, col){
 		this.ctx.lineWidth = 5;
 		this.ctx.stroke();
 		this.ctx.closePath();
-		//this.ctx.fillStyle = '#fff';
-		//this.ctx.fill();
+		if(menuAnimation){
+			this.ctx.fillStyle = menuAnimationColors[indexPointClicked];
+			this.ctx.fill();
+		}
 
 		// drawing the dots for menu
 		for(var i =0; i < this.points.length; i++){
@@ -92,15 +97,13 @@ function Point(x,y){
 }
 
 function init(){
-	// create the hexagon
-	hexagon = new Polygon(ctx, 6, height/4, width/2, height/2, '#ffffff');
+	// create the polygon
+	polygon = new Polygon(ctx, 6, height/4, width/2, height/2, '#ffffff');
 	customShape = new Polygon(ctx,0,0,0,0,'#ffffff');
-	hexagon.makePoints();
+	polygon.makePoints();
 
 	// set menu items on right spot
 	$("#menu h1").css({"position":"fixed", "top":height/2-10, "left":width/2-height/4, "width":height/2, "text-align":"center","color": "#fff", "font-size": "2em","visibility":"hidden"});
-	console.log('hello');
-	console.log($('#menu h1').css("position"));
 }
 
 function loop(){
@@ -114,21 +117,25 @@ function loop(){
 	}
 	ctx.fillStyle = 'rgb(70,70,70)';
 	ctx.fillRect(0,0,width,height);
-
-	if(clicked){
-		customShape.points.push(new Point(clientX, clientY));
-		clicked = false;
-	}
-	for(var i = 0; i < hexagon.points.length; i++){
-		var query = "#menu h1:nth-child("+(i+1)+")";
-		alterPointPosition( hexagon.points[i], $(query));
-	}
-	hexagon.draw();
-	if(changeCursor){
-		$("body").css({"cursor":"pointer"});
-		changeCursor = false;
-	} else{
-		$("body").css({"cursor":"default"});
+	if(!menuAnimation){
+		for(var i = 0; i < polygon.points.length; i++){
+			var query = "#menu h1:nth-child("+(i+1)+")";
+			alterPointPosition( polygon.points[i], $(query));
+			if(menuAnimation){
+				fillPolygon();
+				indexPointClicked = i;
+				break;
+			}
+		}
+		polygon.draw();
+		if(changeCursor){
+			$("body").css({"cursor":"pointer"});
+			changeCursor = false;
+		} else{
+			$("body").css({"cursor":"default"});
+		}
+	} else {
+		animateAfterClick();
 	}
 	requestAnimationFrame(loop);
 }
@@ -146,6 +153,10 @@ function alterPointPosition(point, menuItem){
 	if(dPointClient < 50){
 		menuItem.css({"visibility":"visible"});
 		changeCursor = true;
+		if(clicked){
+			menuAnimation = true;
+			return;
+		}
 		if(dPointOriginal <= point.maxMoveDistance || dOriginalClient < dPointOriginal){
 			if(point.x <= clientX){
 				point.x += 1;
@@ -176,5 +187,23 @@ function alterPointPosition(point, menuItem){
 	}
 }
 
+function fillPolygon(){
+	$("#menu h1").css({"color":"#222222"});
+	for(var i = 0; i < polygon.points.length; i++){
+		var point = polygon.points[i];
+		point.x = point.originalX;
+		point.y = point.originalY;
+	}
+}
+
+function animateAfterClick(){
+	if(polygon.size <= 2*height && polygon.size <= 2*width){
+		polygon.size += 50;
+		polygon.makePoints();
+	} else {
+		$("#menu h1").animate({opacity:0},1000)
+	}
+	polygon.draw();
+}
 
 window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
