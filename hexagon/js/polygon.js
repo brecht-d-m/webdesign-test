@@ -53,7 +53,7 @@ var polygonSize = height/4;
 var numberOfMenuElements = 6;
 var points = [];
 var pointFollowSpeed = 1.5;
-var surroundingFieldPoint = 70;
+var surroundingFieldPoint = width/25;
 var indexLockedPoint = -1;
 var menuAnimationColors = ['#7ACEEB','#7AEBC1','#EBD07A','#EB857A','#7A89EB','#9AC274'];
 var menuAnimation = false;
@@ -145,6 +145,9 @@ function Point(x,y){
 function init(){
 	// create the polygon
 	polygon = new Polygon(ctx, numberOfMenuElements, polygonSize, width/2, height/2, '#ffffff');
+	if(width <= 2*polygon.size || height <= 2*polygon.size){
+		(width<height)?polygon.size = width/2:polygon.size = height/2;
+	}
 	customShape = new Polygon(ctx,0,0,0,0,'#ffffff');
 	polygon.makePoints();
 	$("#menu h1").css({"position":"fixed", "top":height/2-10, "left":width/2-height/4, "width":height/2, "text-align":"center","color": "#fff", "font-size": "2em","visibility":"hidden"});
@@ -153,13 +156,13 @@ function init(){
   		$(this).css({"visibility" : "hidden"});
   		var heightEl = $(this).height();
   		if(height > heightEl){
-  			$(this).css({"position":"fixed", "top":height/2 -heightEl/2});
+  			if(height-400 > heightEl){
+  				$(this).css({"position":"fixed", "top":height/2 -heightEl/2});
+  			} else{
+  				$(this).css({"position":"fixed","top":30,"height":height-200,"width":900,"overflow":"auto"});
+  			}
   		} else{
-  			$(this).css({"margin-bottom":200});
-  		}
-  		var diffHeight = height - heightEl;
-  		if(diffHeight < 400 && diffHeight > 0){
-  			$(this).css({"margin-bottom":200-diffHeight/2,"position":"static"});
+  			$(this).css({"position":"fixed", "top":30,"height":height-200,"width":900,"overflow":"auto"});
   		}
 	});
 }
@@ -291,7 +294,7 @@ function fillPolygon(){
 function animateAfterClick(){
 	clicked = false;
 	$("body").css({"cursor":"default"});
-	if(polygon.size <= 2*height && polygon.size <= 2*width){
+	if(polygon.size <= 2*height || polygon.size <= 2*width){
 		polygon.size += 50;
 		polygon.makePoints();
 	} else {
@@ -318,6 +321,7 @@ function smallPolygonInteraction(){
 		if(clicked){
 			clicked = false;
 			$("body").css({"cursor":"default"});
+			$("#menu h1").animate({opacity:1},1000);
 			goToMainMenu();
 			return;
 		}
