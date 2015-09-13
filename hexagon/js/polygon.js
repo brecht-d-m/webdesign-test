@@ -167,8 +167,21 @@ function alterPointPosition(point, menuItem, indexPoint){
 			}
 			indexLockedPoint = indexPoint;
 			var angle = Math.atan2(point.y - clientY , point.x - clientX);
-			point.x -= 2*Math.cos(angle);
-			point.y -= 2*Math.sin(angle);
+			var oldX, oldY;
+			oldX = point.x;
+			oldY = point.y;
+			point.x -= 3 *dPointClient/dOriginalClient*Math.cos(angle);
+			point.y -= 3 *Math.sin(angle);
+			if(oldX > point.x){
+				if(point.x < clientX) point.x = clientX;
+			} else {
+				if(point.x > clientX) point.x = clientX;
+			}
+			if(oldY > point.y){
+				if(point.y < clientY) point.y = clientY;
+			} else {
+				if(point.y > clientY) point.y = clientY;
+			}
 			if(distance(point.x, point.y,point.originalX, point.originalY)>surroundingFieldPoint){
 				angle = Math.atan2(point.y - point.originalY , point.x - point.originalX);
 				point.x = point.originalX + surroundingFieldPoint * Math.cos(angle);
