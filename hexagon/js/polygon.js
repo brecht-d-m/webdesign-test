@@ -56,6 +56,7 @@ var pointFollowSpeed = 1.5;
 var surroundingFieldPoint = width/25;
 var indexLockedPoint = -1;
 var menuAnimationColors = ['#7ACEEB','#7AEBC1','#EBD07A','#EB857A','#7A89EB','#9AC274'];
+var menuIcons = ['\uf201', '\uf0e0', '\uf135', '\uf0eb', '\uf007', '\uf121']; 
 var menuAnimation = false;
 var endAnimation = false;
 var indexPointClicked = 0;
@@ -65,7 +66,8 @@ var smallPolygon;
 var boolFillPolygon = false;
 var boolFillSmallPolygon = false;
 var boolBackToMain = false;
-var bgcolor = "rgb(70,70,70)"
+var bgcolor = "rgb(70,70,70)";
+var h1Visible = true;
 
 init();
 loop();
@@ -126,8 +128,13 @@ function Polygon(ctx, sides, size, Xcenter, Ycenter, col){
 			var point = this.points[i];
 			this.ctx.beginPath();
 			this.ctx.arc(point.x,point.y,point.rad,0,2*Math.PI,false);
-			this.ctx.fillStyle="#fff";
+			this.ctx.fillStyle="#FFF";
 			this.ctx.fill();
+			if(!menuAnimation) {
+				ctx.fillStyle = "#7C7C7C";
+				ctx.font = "18pt FontAwesome";
+				ctx.fillText(menuIcons[i], point.x-ctx.measureText(menuIcons[i]).width/2, point.y+parseInt(ctx.font)/2/*ctx.measureText(menuIcons[i]).width/2*/);
+			}
 			this.ctx.closePath();
 		}
 	}
@@ -139,7 +146,7 @@ function Point(x,y){
 	this.originalX = x;
 	this.originalY = y;
 	this.maxMoveDistance = 30;
-	this.rad = 10;
+	this.rad = 20;
 }
 
 function init(){
@@ -150,7 +157,8 @@ function init(){
 	}
 	customShape = new Polygon(ctx,0,0,0,0,'#ffffff');
 	polygon.makePoints();
-	$("#menu h1").css({"position":"fixed", "top":height/2-10, "left":width/2-height/4, "width":height/2, "text-align":"center","color": "#fff", "font-size": "2em","visibility":"hidden"});
+	$("#title h1").css({"position":"fixed", "top":height/2-10, "left":width/2-height/4, "width":height/2, "text-align":"center","color": "#fff", "font-size": "2em"});
+	$("#menu h2").css({"position":"fixed", "top":height/2-10, "left":width/2-height/4, "width":height/2, "text-align":"center","color": "#fff", "font-size": "2em","visibility":"hidden"});
 	$("#main div").css({"visibility" : "hidden"});
 	$( "#main div" ).each(function( index ) {
   		$(this).css({"visibility" : "hidden"});
@@ -195,7 +203,7 @@ function loop(){
 	ctx.fillRect(0,0,width,height);
 	if(!menuAnimation){
 		for(var i = 0; i < polygon.points.length; i++){
-			query = "#menu h1:nth-child("+(i+1)+")";
+			query = "#menu h2:nth-child("+(i+1)+")";
 			alterPointPosition( polygon.points[i], $(query), i);
 			if(menuAnimation){
 				boolFillPolygon = true;
@@ -203,6 +211,12 @@ function loop(){
 				indexPointClicked = i;
 				break;
 			}
+		}
+		if(h1Visible) {
+			$("#title h1").css({"visibility":"visible"});	
+		} else {
+			$("#title h1").css({"visibility":"hidden"});
+			h1Visible = true;
 		}
 		polygon.draw();
 		if(changeCursor){
@@ -263,12 +277,13 @@ function alterPointPosition(point, menuItem, indexPoint){
 				point.y = point.originalY + surroundingFieldPoint * Math.sin(angle);
 			}
 		}
+		h1Visible = false;
 	} else{
 			if(indexLockedPoint == indexPoint){
 				indexLockedPoint = -1;
 			}
 			menuItem.css({"visibility":"hidden"});
-			point.rad = 10;
+			point.rad = 20;
 			if(point.x < point.originalX){
 				point.x += pointFollowSpeed;
 			} 
@@ -285,7 +300,7 @@ function alterPointPosition(point, menuItem, indexPoint){
 }
 
 function fillPolygon(){
-	$("#menu h1").css({"color":"#222222"});
+	$("#menu h2").css({"color":"#222222"});
 	for(var i = 0; i < polygon.points.length; i++){
 		var point = polygon.points[i];
 		point.x = point.originalX;
@@ -295,12 +310,13 @@ function fillPolygon(){
 
 function animateAfterClick(){
 	clicked = false;
+	$("#title h1").css({"visibility":"hidden"});
 	$("body").css({"cursor":"default"});
 	if(polygon.size <= 2*height || polygon.size <= 2*width){
 		polygon.size += 50;
 		polygon.makePoints();
 	} else {
-		$("#menu h1").animate({opacity:0},1000);
+		$("#menu h2").animate({opacity:0},1000);
 		endAnimation = true;
 	}
 	polygon.draw();
@@ -324,7 +340,7 @@ function smallPolygonInteraction(){
 		if(clicked){
 			clicked = false;
 			$("body").css({"cursor":"default"});
-			$("#menu h1").animate({opacity:1},1000);
+			$("#menu h2").animate({opacity:1},1000);
 			goToMainMenu();
 			return;
 		}
@@ -367,7 +383,7 @@ function goToMainMenu(){
 		endAnimation = false;
 		indexLockedpoint = -1;
 		boolFillPolygon = false;
-		$("#menu h1").css({"color":"#fff","visibility":"hidden","opacity":1});
+		$("#menu h2").css({"color":"#fff","visibility":"hidden","opacity":1});
 		loop();
 		return;
 	}
