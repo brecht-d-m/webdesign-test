@@ -165,15 +165,26 @@ function alterPointPosition(point, menuItem, indexPoint){
 				return;
 			}
 			indexLockedPoint = indexPoint;
-			if(point.x <= clientX){
+			if(point.x < clientX){
 				point.x += pointFollowSpeed;
-			} else{
+			} 
+			if( point.x > clientX){
 				point.x -= pointFollowSpeed;
 			}
-			if(point.y <= clientY){
+			if(point.y < clientY){
 				point.y += pointFollowSpeed;
-			} else{
+			} 
+			if( point.y > clientY){
 				point.y -= pointFollowSpeed;
+			}
+			var rad = 70
+			if(distance(point.x, point.y,point.originalX, point.originalY)>rad){
+				// point.x , point.y op snijpunt met cirkel
+				var m = (clientY - point.originalY)/(clientX-point.originalX);
+				var b = clientY - (m*clientX);
+				var angle = Math.atan2(point.y - point.originalY , point.x - point.originalX);
+				point.x = point.originalX + rad * Math.cos(angle);
+				point.y = point.originalY + rad * Math.sin(angle);
 			}
 		}
 	} else{
