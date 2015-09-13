@@ -31,6 +31,7 @@ function handleClick(e){
 var polygon;
 var points = [];
 var pointFollowSpeed = 1.5;
+var surroundingFieldPoint = 70;
 var indexLockedPoint = -1;
 var menuAnimationColors = ['#7ACEEB','#7AEBC1','#EBD07A','#EB857A','#7A89EB','#9AC274'];
 var menuAnimation = false;
@@ -165,26 +166,13 @@ function alterPointPosition(point, menuItem, indexPoint){
 				return;
 			}
 			indexLockedPoint = indexPoint;
-			if(point.x < clientX){
-				point.x += pointFollowSpeed;
-			} 
-			if( point.x > clientX){
-				point.x -= pointFollowSpeed;
-			}
-			if(point.y < clientY){
-				point.y += pointFollowSpeed;
-			} 
-			if( point.y > clientY){
-				point.y -= pointFollowSpeed;
-			}
-			var rad = 70
-			if(distance(point.x, point.y,point.originalX, point.originalY)>rad){
-				// point.x , point.y op snijpunt met cirkel
-				var m = (clientY - point.originalY)/(clientX-point.originalX);
-				var b = clientY - (m*clientX);
-				var angle = Math.atan2(point.y - point.originalY , point.x - point.originalX);
-				point.x = point.originalX + rad * Math.cos(angle);
-				point.y = point.originalY + rad * Math.sin(angle);
+			var angle = Math.atan2(point.y - clientY , point.x - clientX);
+			point.x -= 2*Math.cos(angle);
+			point.y -= 2*Math.sin(angle);
+			if(distance(point.x, point.y,point.originalX, point.originalY)>surroundingFieldPoint){
+				angle = Math.atan2(point.y - point.originalY , point.x - point.originalX);
+				point.x = point.originalX + surroundingFieldPoint * Math.cos(angle);
+				point.y = point.originalY + surroundingFieldPoint * Math.sin(angle);
 			}
 		}
 	} else{
