@@ -30,8 +30,11 @@ function handleClick(e){
 
 var polygon;
 var points = [];
+var pointFollowSpeed = 1.5;
+var indexLockedPoint = -1;
 var menuAnimationColors = ['#7ACEEB','#7AEBC1','#EBD07A','#EB857A','#7A89EB','#9AC274'];
 var menuAnimation = false;
+var endAnimation = false;
 var indexPointClicked = 0;
 var changeCursor = false;
 
@@ -52,7 +55,7 @@ function Polygon(ctx, sides, size, Xcenter, Ycenter, col){
 		var posX = this.Xcenter +  this.size * Math.cos(0),
 			posY = this.Ycenter +  this.size *  Math.sin(0);
 		this.points.push(new Point(posX,posY));
-		for (var i = 1; i <= this.sides+1;i += 1) {
+		for (var i = 1; i < this.sides;i++) {
 			var toX = this.Xcenter + this.size * Math.cos(i * 2 * Math.PI / this.sides),
 				toY = this.Ycenter + this.size * Math.sin(i * 2 * Math.PI / this.sides);
     		this.points.push(new Point(toX,toY));
@@ -65,6 +68,7 @@ function Polygon(ctx, sides, size, Xcenter, Ycenter, col){
 		for (var i = 1; i < this.points.length;i++) {
     		this.ctx.lineTo (this.points[i].x,this.points[i].y);
 		}
+		this.ctx.lineTo(this.points[0].x, this.points[0].y);
 
 		this.ctx.strokeStyle = this.col;
 		this.ctx.lineWidth = 5;
@@ -120,7 +124,7 @@ function loop(){
 	if(!menuAnimation){
 		for(var i = 0; i < polygon.points.length; i++){
 			var query = "#menu h1:nth-child("+(i+1)+")";
-			alterPointPosition( polygon.points[i], $(query));
+			alterPointPosition( polygon.points[i], $(query), i);
 			if(menuAnimation){
 				fillPolygon();
 				indexPointClicked = i;
@@ -137,7 +141,9 @@ function loop(){
 	} else {
 		animateAfterClick();
 	}
-	requestAnimationFrame(loop);
+	if(!endAnimation){
+		requestAnimationFrame(loop);
+	}
 }
 
 function distance(x1,y1,x2,y2){
@@ -146,43 +152,47 @@ function distance(x1,y1,x2,y2){
 	return Math.sqrt(dx*dx+dy*dy);
 }
 
-function alterPointPosition(point, menuItem){
+function alterPointPosition(point, menuItem, indexPoint){
 	var dPointClient = distance(point.x,point.y,clientX,clientY);
 	var dPointOriginal = distance(point.x,point.y,point.originalX,point.originalY);
 	var dOriginalClient = distance(clientX,clientY,point.originalX,point.originalY);
-	if(dPointClient < 50){
-		menuItem.css({"visibility":"visible"});
-		changeCursor = true;
-		if(clicked){
-			menuAnimation = true;
-			return;
-		}
-		if(dPointOriginal <= point.maxMoveDistance || dOriginalClient < dPointOriginal){
+	if(dPointClient < 70){
+		if(indexLockedPoint == -1 || indexLockedPoint == indexPoint){
+			menuItem.css({"visibility":"visible"});
+			changeCursor = true;
+			if(clicked){
+				menuAnimation = true;
+				return;
+			}
+			indexLockedPoint = indexPoint;
 			if(point.x <= clientX){
-				point.x += 1;
+				point.x += pointFollowSpeed;
 			} else{
-				point.x -= 1;
+				point.x -= pointFollowSpeed;
 			}
 			if(point.y <= clientY){
-				point.y += 1;
+				point.y += pointFollowSpeed;
 			} else{
-				point.y -= 1;
+				point.y -= pointFollowSpeed;
 			}
 		}
 	} else{
+			if(indexLockedPoint == indexPoint){
+				indexLockedPoint = -1;
+			}
 			menuItem.css({"visibility":"hidden"});
 			point.rad = 10;
 			if(point.x < point.originalX){
-				point.x += 1;
+				point.x += pointFollowSpeed;
 			} 
 			if(point.x > point.originalX){
-				point.x -=1;
+				point.x -=pointFollowSpeed;
 			}
 			if(point.y < point.originalY){
-				point.y += 1;
+				point.y += pointFollowSpeed;
 			} 
 			if(point.y > point.originalY){
-				point.y -=1;
+				point.y -=pointFollowSpeed;
 			}
 	}
 }
@@ -201,7 +211,8 @@ function animateAfterClick(){
 		polygon.size += 50;
 		polygon.makePoints();
 	} else {
-		$("#menu h1").animate({opacity:0},1000)
+		$("#menu h1").animate({opacity:0},1000);
+		endAnimation = true;
 	}
 	polygon.draw();
 }
