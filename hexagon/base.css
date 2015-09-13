@@ -32,3 +32,40 @@ canvas{
 	height:100%;
 	z-index:-1;
 }
+
+#main{
+	width:900px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#main h1{
+	font-size:30px;
+	font-weight:bold;
+	margin-bottom:20px;
+}
+
+#main div{
+	opacity:0;
+	max-width:100%;
+}
+
+#main a:link {
+    color: #fff;
+    text-decoration:none;
+    text-shadow: 1px 0px #222;
+}
+
+#main a:visited {
+    color: #fff;
+    text-shadow: 1px 0px #222;
+}
+
+#main a:active {
+    color: #fff;
+    text-shadow: 1px 0px #222;
+}
+
+p{
+	margin-bottom:10px;
+}

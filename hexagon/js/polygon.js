@@ -3,6 +3,26 @@ window.addEventListener('resize', function(){
 	resized = true;
 }, true);
 
+var zooming=false;
+$(document).bind('DOMMouseScroll mousewheel',function(e) {
+	if(zooming){
+  		alterContentAfterScroll();
+	}
+});
+
+$(document ).on( "keydown", function( event ) {
+  if(event.which == 17){
+  	zooming = true;
+  }
+});
+
+$(document ).on( "keyup", function( event ) {
+  if(event.which == 17){
+  	zooming = false;
+  }
+});
+
+
 
 var width = window.innerWidth;
 var height = window.innerHeight;
@@ -38,6 +58,7 @@ var menuAnimation = false;
 var endAnimation = false;
 var indexPointClicked = 0;
 var changeCursor = false;
+var query;
 
 init();
 loop();
@@ -106,9 +127,28 @@ function init(){
 	polygon = new Polygon(ctx, 6, height/4, width/2, height/2, '#ffffff');
 	customShape = new Polygon(ctx,0,0,0,0,'#ffffff');
 	polygon.makePoints();
-
-	// set menu items on right spot
 	$("#menu h1").css({"position":"fixed", "top":height/2-10, "left":width/2-height/4, "width":height/2, "text-align":"center","color": "#fff", "font-size": "2em","visibility":"hidden"});
+	$("#main div").css({"visibility" : "hidden"});
+	$( "#main div" ).each(function( index ) {
+  		$(this).css({"visibility" : "hidden"});
+  		var heightEl = $(this).height();
+  		if(height > heightEl){
+  			$(this).css({"position":"fixed", "top":height/2 -heightEl/2});
+  		}
+	});
+}
+
+function alterContentAfterScroll(){
+	width = window.innerWidth;
+	height = window.innerHeight;
+	$( "#main div" ).each(function( index ) {
+  		var heightEl = $(this).height();
+  		if(height > heightEl){
+  			$(this).css({"position":"fixed", "top":height/2 -heightEl/2});
+  		} else{
+  			$(this).css({"position":"static"});
+  		}
+	});
 }
 
 function loop(){
@@ -124,7 +164,7 @@ function loop(){
 	ctx.fillRect(0,0,width,height);
 	if(!menuAnimation){
 		for(var i = 0; i < polygon.points.length; i++){
-			var query = "#menu h1:nth-child("+(i+1)+")";
+			query = "#menu h1:nth-child("+(i+1)+")";
 			alterPointPosition( polygon.points[i], $(query), i);
 			if(menuAnimation){
 				fillPolygon();
@@ -144,6 +184,8 @@ function loop(){
 	}
 	if(!endAnimation){
 		requestAnimationFrame(loop);
+	} else{
+		displayPage($(query));
 	}
 }
 
@@ -219,6 +261,7 @@ function fillPolygon(){
 }
 
 function animateAfterClick(){
+	$("body").css({"cursor":"default"});
 	if(polygon.size <= 2*height && polygon.size <= 2*width){
 		polygon.size += 50;
 		polygon.makePoints();
@@ -227,6 +270,12 @@ function animateAfterClick(){
 		endAnimation = true;
 	}
 	polygon.draw();
+}
+
+function displayPage(menuElement){
+	var query = '#' + menuElement.text().replace(/ /g,'_');
+	$(query).css({"visibility":"visible"});
+	$(query).animate({opacity:1},1000);
 }
 
 window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
