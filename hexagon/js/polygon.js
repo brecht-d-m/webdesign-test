@@ -160,9 +160,11 @@ function init(){
   				$(this).css({"position":"fixed", "top":height/2 -heightEl/2});
   			} else{
   				$(this).css({"position":"fixed","top":30,"height":height-200,"width":900,"overflow":"auto"});
+  				$(this).niceScroll().hide();
   			}
   		} else{
   			$(this).css({"position":"fixed", "top":30,"height":height-200,"width":900,"overflow":"auto"});
+  			$(this).niceScroll().hide();
   		}
 	});
 }
@@ -305,6 +307,7 @@ function animateAfterClick(){
 }
 
 function displayPage(menuElement){
+	$(query).getNiceScroll().show();
 	var query = '#' + menuElement.text().replace(/ /g,'_');
 	$(query).css({"visibility":"visible"});
 	$(query).animate({opacity:1},1000);
