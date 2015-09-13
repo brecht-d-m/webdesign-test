@@ -34,7 +34,6 @@ canvas{
 }
 
 #main{
-	pointer-events: none;
 	width:900px;
 	margin-left:auto;
 	margin-right:auto;

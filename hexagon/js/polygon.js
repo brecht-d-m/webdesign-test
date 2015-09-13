@@ -33,17 +33,17 @@ var ctx = canvas.getContext('2d');
 canvas.width = width;
 canvas.height = height;
 
-document.onmousemove = handleMouseMove;
 var clientX = -1000, clientY =-1000;
-function handleMouseMove(e){
+$("body").mousemove(function(e){
 	 var evt = e || event || window.event;
 	 clientX = evt.clientX;
 	 clientY = evt.clientY;
-}
+});
 
 document.onclick = handleClick;
 var clicked = false;
 function handleClick(e){
+	e.stopPropagation()
 	clicked = true;
 }
 
@@ -333,6 +333,7 @@ function smallPolygonInteraction(){
 		ctx.fillRect(0,0,canvas.width,canvas.height);
 		smallPolygon.draw();
 	} else{
+		clicked = false;
 		$("body").css({"cursor":"default"});
 	}
 	if(!clicked){
